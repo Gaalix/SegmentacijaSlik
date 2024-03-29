@@ -22,7 +22,10 @@ def kmeans(slika, k=3, iteracije=10):
 
     # Spremenimo obliko slike nazaj v 3D
     segmentirana_slika = segmentirana_slika_2d.reshape(slika.shape)
-    
+
+    # Vrnemo segmentirano sliko
+    return segmentirana_slika.astype(slika.dtype)
+
 
 def meanshift(slika, velikost_okna, dimenzija):
     '''Izvede segmentacijo slike z uporabo metode mean-shift.'''
