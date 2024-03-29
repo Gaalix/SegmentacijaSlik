@@ -9,7 +9,7 @@ def kmeans(slika, k=3, iteracije=10):
     # Izračunamo centre
     centri = izracunaj_centre(slika_2d, k, slika_2d.shape[1], iteracije)
 
-    for _ in range(iteracije)
+    for _ in range(iteracije):
         # Dodamo vsak pixel do najbližjega centra
         labele = np.argmin(np.linalg.norm(slika_2d[:, None] - centri, axis=-1), axis=-1)
 
