@@ -1,4 +1,5 @@
 import cv2 as cv
+import numpy as np
 
 def kmeans(slika, k=3, iteracije=10):
     '''Izvede segmentacijo slike z uporabo metode k-means.'''
@@ -6,7 +7,11 @@ def kmeans(slika, k=3, iteracije=10):
     slika_2d = slika.reshape((-1, 3))
 
     # Izračunamo centre
-    centri = izracunaj_centre(slika_2d, k, slika_2d.shape[1], iteracije) 
+    centri = izracunaj_centre(slika_2d, k, slika_2d.shape[1], iteracije)
+
+    for _ in range(iteracije)
+        # Dodamo vsak pixel do najbližjega centra
+        labele = np.argmin(np.linalg.norm(slika_2d[:, None] - centri, axis=-1), axis=-1)
 
 def meanshift(slika, velikost_okna, dimenzija):
     '''Izvede segmentacijo slike z uporabo metode mean-shift.'''
