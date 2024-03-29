@@ -20,6 +20,10 @@ def kmeans(slika, k=3, iteracije=10):
     # Spremenimo vsak piksel v sliki na njegov center
     segmentirana_slika_2d = centri[labele]
 
+    # Spremenimo obliko slike nazaj v 3D
+    segmentirana_slika = segmentirana_slika_2d.reshape(slika.shape)
+    
+
 def meanshift(slika, velikost_okna, dimenzija):
     '''Izvede segmentacijo slike z uporabo metode mean-shift.'''
     pass
