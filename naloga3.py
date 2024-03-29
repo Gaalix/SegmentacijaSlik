@@ -17,6 +17,9 @@ def kmeans(slika, k=3, iteracije=10):
         for i in range(k):
             centri[i] = np.mean(slika_2d[labele == i], axis=0)
 
+    # Spremenimo vsak piksel v sliki na njegov center
+    segmentirana_slika_2d = centri[labele]
+
 def meanshift(slika, velikost_okna, dimenzija):
     '''Izvede segmentacijo slike z uporabo metode mean-shift.'''
     pass
