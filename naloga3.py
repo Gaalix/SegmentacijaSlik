@@ -13,6 +13,10 @@ def kmeans(slika, k=3, iteracije=10):
         # Dodamo vsak pixel do najbližjega centra
         labele = np.argmin(np.linalg.norm(slika_2d[:, None] - centri, axis=-1), axis=-1)
 
+        # Posodobimo centre
+        for i in range(k):
+            centri[i] = np.mean(slika_2d[labele == i], axis=0)
+
 def meanshift(slika, velikost_okna, dimenzija):
     '''Izvede segmentacijo slike z uporabo metode mean-shift.'''
     pass
