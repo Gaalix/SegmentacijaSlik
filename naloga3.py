@@ -9,11 +9,16 @@ def kmeans(slika, k=3, iteracije=10):
     # Izračunamo centre
     centri = izracunaj_centre(slika_2d, k, slika_2d.shape[1], iteracije)
 
+    # Začnemo z iteracijami algoritma K-means. Število iteracij je določeno z vrednostjo 'iteracije'.
     for _ in range(iteracije):
-        # Dodamo vsak pixel do najbližjega centra
-        labele = np.argmin(np.linalg.norm(slika_2d[:, None] - centri, axis=-1), axis=-1)
+    
+        # Izračunamo Manhattanovo razdaljo med vsakim pikslom slike (slika_2d) in trenutnimi centri gruč.
+        # np.abs(slika_2d[:, None] - centri).sum(axis=-1) izračuna razdaljo med vsakim pikslom in vsakim centrom.
+        # np.argmin() nato vrne indeks centra, ki je najbližji vsakemu pikslu. Te indekse shranimo v 'labele'.
+        labele = np.argmin(np.abs(slika_2d[:, None] - centri).sum(axis=-1), axis=-1)
 
-        # Posodobimo centre
+        # Posodobimo centre gruč. Za vsako gručo (od 0 do k-1) izračunamo povprečje vseh pikslov, ki so bili dodeljeni tej gruči.
+        # To povprečje postane nov center za to gručo.
         for i in range(k):
             centri[i] = np.mean(slika_2d[labele == i], axis=0)
 
