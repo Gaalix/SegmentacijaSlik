@@ -5,6 +5,9 @@ def kmeans(slika, k=3, iteracije=10):
     # Spremenimo obliko slike v 2D
     slika_2d = slika.reshape((-1, 3))
 
+    # Izračunamo centre
+    centri = izracunaj_centre(slika_2d, k, slika_2d.shape[1], iteracije) 
+
 def meanshift(slika, velikost_okna, dimenzija):
     '''Izvede segmentacijo slike z uporabo metode mean-shift.'''
     pass
