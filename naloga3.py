@@ -38,7 +38,23 @@ def meanshift(slika, velikost_okna, dimenzija):
 
 def izracunaj_centre(slika, izbira, dimenzija_centra, T):
     '''Izračuna centre za metodo kmeans.'''
-    pass
+    if izbira == 'ročno':
+        # Ročna izbira centrov
+        centri = []
+        # TODO: Dodajte ročno izbrane centre
+    if izbira == 'naključno':
+        # Naključna izbira centrov
+        centri = []
+        while len(centri) < dimenzija_centra:
+            # Naključno izberemo center
+            centri = np.random.rand(3) * 255
+            # Preverimo, če je center dovolj oddaljen od ostalih centrov
+            if all(np.linalg.norm(centri - center) > T for center in centri):
+                centri.append(centri)
+    else:
+        raise ValueError('Izbira centrov ni veljavna.')
+    
+    return np.array(centri)
 
 if __name__ == "__main__":
     pass
