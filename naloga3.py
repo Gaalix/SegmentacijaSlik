@@ -1,5 +1,11 @@
 import cv2 as cv
 import numpy as np
+centri = []
+
+def click_event(event, x, y, flags, param):
+    # Preverimo, če je uporabnik kliknil levi gumb miške
+    if event == cv.EVENT_LBUTTONDOWN:
+        centri.append([x, y])
 
 def kmeans(slika, k=3, iteracije=10):
     '''Izvede segmentacijo slike z uporabo metode k-means.'''
@@ -38,10 +44,15 @@ def meanshift(slika, velikost_okna, dimenzija):
 
 def izracunaj_centre(slika, izbira, dimenzija_centra, T):
     '''Izračuna centre za metodo kmeans.'''
+    global centri
     if izbira == 'ročno':
         # Ročna izbira centrov
         centri = []
-        # TODO: Dodajte ročno izbrane centre
+        cv.imshow('Slika', slika)
+        # Počakamo na klik uporabnika
+        cv.setMouseCallback('Slika', click_event)
+        cv.waitKey(0)
+        cv.destroyAllWindows()
     if izbira == 'naključno':
         # Naključna izbira centrov
         centri = []
