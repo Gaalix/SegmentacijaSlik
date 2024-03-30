@@ -37,13 +37,31 @@ def kmeans(slika, k=3, iteracije=10):
     # Vrnemo segmentirano sliko
     return segmentirana_slika.astype(slika.dtype)
 
+def gaussovo_jedro(velikost, sigma):
+    '''Vrne 2D Gaussovo jedro.'''
+    return (1 / (sigma * np.sqrt(2 * np.pi))) * np.exp(-0.5 * (velikost / sigma) ** 2)
 
 def meanshift(slika, velikost_okna, dimenzija):
     '''Izvede segmentacijo slike z uporabo metode mean-shift.'''
-    pass
+    # Spremenimo obliko slike v 2D
+    tocke = slika.reshape((-1), dimenzija)
+    
+    nove_tocke = np.copy(tocke)
+
+    for _ in range(100):
+        for i, tocka in enumerate(tocke):
+            razdalje = np.linalg.norm(tocka - tocke, axis=1)
+            utezi = gaussovo_jedro(razdalje, velikost_okna)
+            nova_tocka = np.sum(tocke * utezi[:, None], axis=0) / np.sum(utezi)
+            if np.linalg.norm(nova_tocka - nove_tocke[i]) < 1e-3:  # konvergenca
+                break
+            nove_tocke[i] = nova_tocka
+    
+    return nove_tocke.reshape(slika.shape)
 
 def izracunaj_centre(slika, izbira, dimenzija_centra, T):
     '''Izračuna centre za metodo kmeans.'''
+    # Definiramo globalno spremenljivko centri
     global centri
     if izbira == 'ročno':
         # Ročna izbira centrov
@@ -53,7 +71,7 @@ def izracunaj_centre(slika, izbira, dimenzija_centra, T):
         cv.setMouseCallback('Slika', click_event)
         cv.waitKey(0)
         cv.destroyAllWindows()
-    if izbira == 'naključno':
+    elif izbira == 'naključno':
         # Naključna izbira centrov
         centri = []
         while len(centri) < dimenzija_centra:
