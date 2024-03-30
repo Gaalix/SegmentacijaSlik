@@ -13,7 +13,7 @@ def kmeans(slika, k=3, iteracije=10):
     slika_2d = slika.reshape((-1, 3))
 
     # Izračunamo centre
-    centri = izracunaj_centre(slika_2d, k, slika_2d.shape[1], iteracije)
+    centri = izracunaj_centre(slika_2d, "nakljucno", slika_2d.shape[1], iteracije)
 
     # Začnemo z iteracijami algoritma K-means. Število iteracij je določeno z vrednostjo 'iteracije'.
     for _ in range(iteracije):
@@ -63,7 +63,7 @@ def izracunaj_centre(slika, izbira, dimenzija_centra, T):
     '''Izračuna centre za metodo kmeans.'''
     # Definiramo globalno spremenljivko centri
     global centri
-    if izbira == 'ročno':
+    if izbira == 'rocno':
         # Ročna izbira centrov
         centri = []
         cv.imshow('Slika', slika)
@@ -71,19 +71,36 @@ def izracunaj_centre(slika, izbira, dimenzija_centra, T):
         cv.setMouseCallback('Slika', click_event)
         cv.waitKey(0)
         cv.destroyAllWindows()
-    elif izbira == 'naključno':
+    elif izbira == 'nakljucno':
         # Naključna izbira centrov
         centri = []
         while len(centri) < dimenzija_centra:
             # Naključno izberemo center
-            centri = np.random.rand(3) * 255
+            center = np.random.rand(3) * 255
             # Preverimo, če je center dovolj oddaljen od ostalih centrov
             if all(np.linalg.norm(centri - center) > T for center in centri):
-                centri.append(centri)
+                centri.append(center)
     else:
         raise ValueError('Izbira centrov ni veljavna.')
     
     return np.array(centri)
 
 if __name__ == "__main__":
-    pass
+    # Preberemo sliko
+    slika = cv.imread('.utils/zelenjava.jpg')
+
+    # Izvedemo segmentacijo slike z metodo k-means
+    segmentirana_slika = kmeans(slika, k=3, iteracije=10)
+
+    # Izvedemo segmentacijo slike z metodo mean-shift
+    segmentirana_slika_ms = meanshift(slika, velikost_okna=50, dimenzija=3)
+
+    # Prikažemo originalno in segmentirano sliko
+    cv.imshow('Originalna slika', slika)
+    cv.imshow('Segmentirana slika (K-means)', segmentirana_slika)
+    cv.imshow('Segmentirana slika (Mean-shift)', segmentirana_slika_ms)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+
+    
