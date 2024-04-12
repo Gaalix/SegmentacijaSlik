@@ -23,7 +23,7 @@ jobs:
         run: |
           if [ -f /home/runner/work/SegmentacijaSlik/SegmentacijaSlik/test.py ]; then
             echo "Test script found."
-            echo "tests-present=true" >> $GITHUB_ENV
+            echo "::set-output name=tests-present::true"
           else
             echo "Test script not found." >&2
             exit 1
