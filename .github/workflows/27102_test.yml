@@ -13,10 +13,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: List files in the current directory
-        run: ls -la
-
       
       - name: Check for test script
         id: check-tests
