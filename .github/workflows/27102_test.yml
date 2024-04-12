@@ -20,7 +20,7 @@ jobs:
       - name: Check for test script
         id: check-tests
         run: |
-          ls -la
+          python test.py --help
           if [ -f test.py ]; then
             echo "::set-output name=tests-present::true"
             echo "Test script found."
