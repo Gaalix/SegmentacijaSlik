@@ -19,15 +19,16 @@ jobs:
       
       - name: Check for test script
         id: check-tests
+        shell: bash
         run: |
           python test.py --help
-          if [ -f test.py ]; then
-            echo "::set-output name=tests-present::true"
+          if [ f /home/runner/work/SegmentacijaSlik/SegmentacijaSlik/test.py ]; then
             echo "Test script found."
+            echo "tests-present=true" >> $GITHUB_ENV
           else
-            echo "::set-output name=tests-present::false"
             echo "Test script not found." >&2
             exit 1
+          f1
 
   run-tests:
     needs: check-for-test-script
