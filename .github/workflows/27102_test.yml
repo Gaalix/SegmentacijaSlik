@@ -7,7 +7,7 @@ on:
 
 jobs:
   check-for-test-script:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest  # Use GitHub-hosted runner
     outputs:
       tests-present: ${{ steps.check-tests.outputs.tests-present }}
     steps:
@@ -28,15 +28,18 @@ jobs:
   run-tests:
     needs: check-for-test-script
     if: ${{ needs.check-for-test-script.outputs.tests-present == 'true' }}
-    runs-on: self-hosted
+    runs-on: ubuntu-latest  # Use GitHub-hosted runner
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']  # Define a matrix for Python versions
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.12.2'
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: pip install numpy opencv-python
