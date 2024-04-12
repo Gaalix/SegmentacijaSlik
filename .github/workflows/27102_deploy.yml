@@ -24,7 +24,7 @@ jobs:
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t yourusername/yourrepository:${{ github.sha }} .
+        run: docker build -t weequally/python-app:${{ github.sha }} .
 
       - name: Push Docker image to Docker Hub
-        run: docker push yourusername/yourrepository:${{ github.sha }}
+        run: docker push weequally/python-app:${{ github.sha }}
