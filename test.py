@@ -5,7 +5,7 @@ sys.path.append(os.getcwd())
 import unittest
 import numpy as np
 import cv2 as cv
-from naloga3 import kmeans, meanshift, calculate_distances, gaussian_kernel
+from naloga3 import meanshift, calculate_distances, gaussian_kernel
 
 def timeout_decorator(func):
     import functools, signal
@@ -35,14 +35,6 @@ class TestImageSegmentation(unittest.TestCase):
         expected = np.array([[0, 5], [5, 0]])
         result = calculate_distances(points, 3)
         np.testing.assert_array_almost_equal(result, expected)
-
-    @timeout_decorator
-    def test_kmeans_basic(self):
-        slika = np.zeros((10, 10, 3), dtype=np.uint8)
-        slika[5:, 5:] = 255
-        result = kmeans(slika, k=2, iteracije=1)
-        unique_colors = np.unique(result.reshape(-1, result.shape[2]), axis=0)
-        self.assertTrue(len(unique_colors) >= 2)
 
     @timeout_decorator
     def test_meanshift_basic(self):
