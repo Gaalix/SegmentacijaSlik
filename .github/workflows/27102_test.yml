@@ -1,0 +1,45 @@
+name: Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-for-test-script:
+    runs-on: self-hosted
+    outputs:
+      tests-present: ${{ steps.check-tests.outputs.tests-present }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check for test script
+        id: check-tests
+        run: |
+          if [ -f test.py ]; then
+            echo "::set-output name=tests-present::true"
+            echo "Test script found."
+          else
+            echo "::set-output name=tests-present::false"
+            echo "Test script not found." >&2
+            exit 1
+
+  run-tests:
+    needs: check-for-test-script
+    if: ${{ needs.check-for-test-script.outputs.tests-present == 'true' }}
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.12.2'
+
+      - name: Install dependencies
+        run: pip install numpy opencv-python
+
+      - name: Run tests
+        run: python test.py
