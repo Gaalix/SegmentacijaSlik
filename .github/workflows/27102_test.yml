@@ -21,7 +21,6 @@ jobs:
         id: check-tests
         shell: bash
         run: |
-          python test.py --help
           if [ f /home/runner/work/SegmentacijaSlik/SegmentacijaSlik/test.py ]; then
             echo "Test script found."
             echo "tests-present=true" >> $GITHUB_ENV
