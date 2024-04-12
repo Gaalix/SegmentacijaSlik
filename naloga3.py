@@ -5,7 +5,7 @@ def kmeans(slika, k=3, iteracije=10):
     # Izberite med 3 ali 5 za dimenzijo centra, odvisno od tega, ali želite upoštevati koordinate pikslov
     dimenzija_centra = 3
     T = 50  # Prag za izbiro naključnih centrov
-    izbira = 'rocno'  # Način izbire centrov: 'rocno' ali 'nakljucno'
+    izbira = 'nakljucno'  # Način izbire centrov: 'rocno' ali 'nakljucno'
 
     # Inicializacija centrov glede na izbrano metodo in kriterije
     centri = izracunaj_centre(slika, izbira, dimenzija_centra, T, k)
