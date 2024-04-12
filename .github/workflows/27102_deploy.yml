@@ -1,26 +1,30 @@
-name: Deploy Workflow
+name: Deploy to Docker Hub
 
 on:
   workflow_run:
-    workflows: ["Test Workflow"]
-    branches: [main]
+    workflows: ["Test Workflow"]  # Replace with the name of your test workflow
     types:
       - completed
+    branches:
+      - main
 
 jobs:
-  build-and-push:
+  deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }} # Your Docker Hub username
-        password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and push Docker image
-      run: |
-        docker build -t yourusername/yourrepository:${{ github.sha }} .
-        docker push yourusername/yourrepository:${{ github.sha }}
+      - name: Build Docker image
+        run: docker build -t yourusername/yourrepository:${{ github.sha }} .
+
+      - name: Push Docker image to Docker Hub
+        run: docker push yourusername/yourrepository:${{ github.sha }}
