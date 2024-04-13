@@ -1,7 +1,7 @@
 # Use an official Python runtime as a parent image
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get install -y python3 python3-pip
+RUN apt-get update -y && apt-get install -y python3 python3-pip
 
 RUN pip install --upgrade pip
 
@@ -15,4 +15,4 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Run app.py when the container launches
-CMD ["python", "naloga3.py"]
+CMD ["python3", "naloga3.py"]
